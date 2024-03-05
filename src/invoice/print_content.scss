@@ -3,14 +3,16 @@
   width: 1080px;
 
   .branding-header-tr {
-    height: 150px;
+    height: 165px;
 
     .branding-header {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-      .left {
-        width: 250px;
-        padding: 10px 20px;
+      .logo {
+        width: 230px;
+        padding: 10px;
 
         img {
           width: 100%;
@@ -18,35 +20,197 @@
 
       }
 
-      .right {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 830px;
+      .company-info {
+        width: 800px;
         padding: 10px;
+
+        .company-name {
+          font-size: 24px;
+          margin: 0 2px;
+        }
+
+        h4 {
+          overflow: hidden;
+          font-size: 13px;
+          line-height: 1.6;
+          margin: 5px 0;
+        }
+
+        .double-line-ellipsis {
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+
+        .single-line-ellipsis {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .m-t-8 {
+          margin-top: 8px;
+        }
+
+        .m-t-10 {
+          margin-top: 10px;
+        }
+
+        .m-b-8 {
+          margin-bottom: 8px;
+        }
+
+        .m-b-10 {
+          margin-bottom: 10px;
+        }
+
       }
     }
 
   }
 
-  .sl {
+  .invoice-details-header-tr {
+    height: 120px;
+
+    .invoice-details-header {
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+
+      .invoice-info {
+        width: 530px;
+        padding: 10px;
+      }
+
+      .customer-info {
+        width: 530px;
+        padding: 10px;
+        border-left: 1px solid #EDEDED;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        margin: 0 0 8px 0;
+
+        b {
+          display: inline-block;
+          width: 150px;
+        }
+      }
+
+    }
+
+  }
+
+  .sl-col {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
     width: 40px;
     padding: 5px;
   }
 
-  .digit {
-    width: 80px;
-    padding: 5px;
-  }
-
-  .text {
+  .quantity-col, .price-col, .total-col {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 400px;
+    text-align: right;
+    width: 60px;
     padding: 5px;
   }
 
+  .double-name-col {
+    width: 380px;
+    padding: 5px;
+    line-height: 1.6;
+  }
+
+  .single-name-col {
+    width: 770px;
+    padding: 5px;
+    line-height: 1.6;
+  }
+
+  .price-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #EDEDED;
+
+    .in-word {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 530px;
+      padding: 8px 10px;
+      text-transform: capitalize;
+    }
+
+    .summary {
+      width: 530px;
+      padding: 10px;
+      border-left: 1px solid #EDEDED;
+      font-size: 13px;
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 8px 0;
+
+        b {
+          display: inline-block;
+          width: 150px;
+        }
+
+        span {
+          text-align: right;
+        }
+      }
+
+    }
+
+  }
+
+  .signature-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+    height: 100px;
+
+    .left-signature, .right-signature {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      padding: 10px;
+      border-top: 1px solid #EDEDED;
+    }
+
+  }
+
+  .footer-info {
+    padding: 10px;
+    text-align: center;
+
+    p {
+      padding: 20px;
+      font-size: 18px;
+      line-height: 1.6;
+      background-color: #EDEDED;
+    }
+
+  }
+
+  .bold {
+    font-weight: bold;
+  }
 
   table, th, td {
     border: 2px solid #EDEDED;
@@ -61,7 +225,7 @@
 
   th, td {
     text-align: left;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   th {
