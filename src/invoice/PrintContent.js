@@ -2,7 +2,7 @@ import React from 'react';
 import "./print_content.scss";
 import {generateInvoiceData} from "../helpers/InvoiceData";
 
-const PrintContent = ({componentRef, hideProductName = true}) => {
+const PrintContent = ({componentRef, hideProductName = false}) => {
 
     const getPageMargins = () => {
         return `@page {
@@ -191,7 +191,16 @@ const PrintContent = ({componentRef, hideProductName = true}) => {
                 {
                     generateInvoiceData().map((data, i) => productInfoRow(i + 1, data))
                 }
-
+                <tr className="bold">
+                    <td>SL.</td>
+                    {
+                        !hideProductName && <td>Product Name</td>
+                    }
+                    <td>Display Name</td>
+                    <td>Qty</td>
+                    <td>Price</td>
+                    <td>Total</td>
+                </tr>
                 <tr>
                     <td colSpan={colSpan}>
                         {priceSummary()}
@@ -199,25 +208,23 @@ const PrintContent = ({componentRef, hideProductName = true}) => {
                 </tr>
                 <tr>
                     <td colSpan={colSpan}>
-                        <div className="signature-content">
-                            <div className="left-signature">
-                                Signature One
+                        <div>
+                            <div className="signature-content">
+                                <div className="left-signature">
+                                    Signature One
+                                </div>
+                                <div className="right-signature">
+                                    Signature Two
+                                </div>
                             </div>
-                            <div className="right-signature">
-                                Signature Two
+                            <div className="footer-info">
+                                <a href="http://localhost:3000/sale-config">http://localhost:3000/sale-config</a>
+                                <p>
+                                    Item purchased can be exchanged within 7 days with receipt. The item purchased
+                                    cannot
+                                    refund in cash. Visit www.oushodsheba.com & Ordered for Home-delivery.
+                                </p>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={colSpan}>
-                        <div className="footer-info">
-                            <a href="http://localhost:3000/sale-config">http://localhost:3000/sale-config</a>
-                            <p>
-                                Item purchased can be exchanged within 7 days with receipt. The item purchased
-                                cannot
-                                refund in cash. Visit www.oushodsheba.com & Ordered for Home-delivery.
-                            </p>
                         </div>
                     </td>
                 </tr>
