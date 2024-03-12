@@ -191,16 +191,7 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
                 {
                     generateInvoiceData().map((data, i) => productInfoRow(i + 1, data))
                 }
-                <tr className="bold">
-                    <td>SL.</td>
-                    {
-                        !hideProductName && <td>Product Name</td>
-                    }
-                    <td>Display Name</td>
-                    <td>Qty</td>
-                    <td>Price</td>
-                    <td>Total</td>
-                </tr>
+
                 <tr>
                     <td colSpan={colSpan}>
                         {priceSummary()}
