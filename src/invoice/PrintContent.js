@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useMemo, useRef} from 'react';
+import React, {useLayoutEffect, useMemo, useRef, useState} from 'react';
 import "./print_content.scss";
 import {generateInvoiceData} from "../helpers/InvoiceData";
 
@@ -7,6 +7,9 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
     const refs = useRef([]);
 
     const maxPageHeight = 1200; // Without header
+    const footerHeight = 430;
+
+    const [lastPageAvailableHeight, setLastPageAvailableHeight] = useState(0);
 
     const getPageMargins = () => {
         return `@page {
@@ -170,30 +173,26 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
 
     useLayoutEffect(() => {
 
-        let cachedLastPageAvailableHeight = localStorage.getItem("lastPageAvailableHeight");
+        let currentPageHeightCovered = 0;
 
-        if (!cachedLastPageAvailableHeight) {
+        // Calculate the last page covered height
+        refs.current?.forEach((element) => {
 
-            let _lastPageHeight = 0;
+            currentPageHeightCovered += element.clientHeight;
 
-            refs.current?.forEach((element) => {
+            if (currentPageHeightCovered > maxPageHeight) {
+                currentPageHeightCovered = element.clientHeight;
+            }
 
-                _lastPageHeight += element.clientHeight;
+        });
 
-                if (_lastPageHeight > maxPageHeight) {
+        // If the footer is not adjustable to the current page then it will send to next page
+        const currentAvailableHeight = (maxPageHeight - currentPageHeightCovered);
 
-                    _lastPageHeight = element.clientHeight;
-
-                }
-
-            });
-
-            localStorage.setItem("lastPageAvailableHeight", JSON.stringify(maxPageHeight - _lastPageHeight));
-
-        }
-
-        return () => {
-            localStorage.removeItem("lastPageAvailableHeight");
+        if (currentAvailableHeight - footerHeight >= 0) {
+            setLastPageAvailableHeight(currentAvailableHeight);
+        } else {
+            setLastPageAvailableHeight(maxPageHeight);
         }
 
     }, [productInfoRows]);
@@ -236,11 +235,10 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
 
                 <tr>
                     <td colSpan={colSpan}>
-                        {/*<div className={`last-footer page-break ${forPrint ? "footer-for-print" : ""}`}>*/}
                         <div
                             className="last-footer"
                             style={{
-                                height: `${localStorage.getItem("lastPageAvailableHeight") - 50}px`
+                                height: `${lastPageAvailableHeight - 50}px`
                             }}
                         >
                             {priceSummary()}

@@ -18,17 +18,9 @@ const InvoicePrint = forwardRef(({data, pdfConfig, title}, ref) => {
 
     }));
 
-    return (
-        <>
-            <div style={{display: "none"}}>
-                {
-                    <PrintContent
-                        componentRef={componentRef}
-                    />
-                }
-            </div>
-        </>
-    );
+    return (<PrintContent
+        componentRef={componentRef}
+    />);
 });
 
 
