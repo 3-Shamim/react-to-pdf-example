@@ -1,6 +1,5 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import InvoicePrint from "./InvoicePrint";
-import PrintContent from "./PrintContent";
 import "./invoice.scss";
 
 
@@ -8,10 +7,8 @@ const Invoice = () => {
 
     const printRef = useRef(null);
 
-    const [isPrint, setIsPrint] = useState(false);
 
     const handlePrint = () => {
-        setIsPrint(true);
         setTimeout(() => {
             if (printRef) {
                 printRef.current.refHandlePrint();
@@ -24,17 +21,20 @@ const Invoice = () => {
             className="invoice"
         >
             <button
+                style={{
+                    position: "relative",
+                    overflow: "hidden"
+                }}
                 className="button"
                 onClick={() => handlePrint()}
             >
                 Print
             </button>
 
-            {
-                isPrint ? <InvoicePrint
-                    ref={printRef}
-                /> : <></>
-            }
+            <InvoicePrint
+                ref={printRef}
+            />
+
         </div>
 
 
