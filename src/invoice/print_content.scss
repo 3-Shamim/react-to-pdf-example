@@ -178,32 +178,40 @@
 
   }
 
-  .signature-content {
-    display: flex;
-    justify-content: space-around;
-    align-items: end;
-    height: 100px;
+  .last-footer {
 
-    .left-signature, .right-signature {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .signature-content {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 400px;
-      padding: 10px;
-      border-top: 1px solid #EDEDED;
+      justify-content: space-around;
+      align-items: end;
+      height: 100px;
+
+      .left-signature, .right-signature {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 400px;
+        padding: 10px;
+        border-top: 1px solid #EDEDED;
+      }
+
     }
 
-  }
+    .footer-info {
+      padding: 10px;
+      text-align: center;
 
-  .footer-info {
-    padding: 10px;
-    text-align: center;
+      p {
+        padding: 20px;
+        font-size: 18px;
+        line-height: 1.6;
+        background-color: #EDEDED;
+      }
 
-    p {
-      padding: 20px;
-      font-size: 18px;
-      line-height: 1.6;
-      background-color: #EDEDED;
     }
 
   }

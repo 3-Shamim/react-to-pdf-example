@@ -1,10 +1,17 @@
 import './App.css';
 import Invoice from "./invoice/Invoice";
+import {useState} from "react";
 
 function App() {
+
+    const [hide, setHide] = useState(false);
+
     return (
         <div>
-            <Invoice/>
+            <button onClick={() => setHide(!hide)}>
+                Toggle Component
+            </button>
+            {!hide && <Invoice/>}
         </div>
     );
 }

@@ -30,9 +30,6 @@ const Invoice = () => {
                 Print
             </button>
 
-
-            <PrintContent/>
-
             {
                 isPrint ? <InvoicePrint
                     ref={printRef}

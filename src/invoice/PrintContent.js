@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useLayoutEffect, useMemo, useRef} from 'react';
 import "./print_content.scss";
 import {generateInvoiceData} from "../helpers/InvoiceData";
 
 const PrintContent = ({componentRef, hideProductName = false}) => {
+
+    const refs = useRef([]);
+
+    const maxPageHeight = 1200; // Without header
 
     const getPageMargins = () => {
         return `@page {
@@ -21,43 +25,6 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
     const nameColClass = hideProductName ? "single-name-col" : "double-name-col";
 
     const colSpan = hideProductName ? 5 : 6;
-
-    const productInfoRow = (sl, data) => {
-        return <tr key={sl}>
-            <td>
-                <div className="sl-col">
-                    {sl}
-                </div>
-            </td>
-            {
-                !hideProductName && <td>
-                    <div className={nameColClass}>
-                        {data.productName}
-                    </div>
-                </td>
-            }
-            <td>
-                <div className={nameColClass}>
-                    {data.displayName}
-                </div>
-            </td>
-            <td>
-                <div className="quantity-col">
-                    {data.quantity}
-                </div>
-            </td>
-            <td>
-                <div className="price-col">
-                    {data.price}
-                </div>
-            </td>
-            <td>
-                <div className="total-col">
-                    {data.total}
-                </div>
-            </td>
-        </tr>;
-    }
 
     const brandingHeader = () => {
         return <div
@@ -128,7 +95,7 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
         </div>;
     }
 
-    function priceSummary() {
+    const priceSummary = () => {
         return <div className="price-summary">
             <div className="in-word">
                 <h2>Total Paid in Words</h2>
@@ -156,6 +123,81 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
             </div>
         </div>;
     }
+
+    const productInfoRow = (sl, data, elementRef) => {
+        return <tr key={sl} ref={elementRef}>
+            <td>
+                <div className="sl-col">
+                    {sl}
+                </div>
+            </td>
+            {
+                !hideProductName && <td>
+                    <div className={nameColClass}>
+                        {data.productName}
+                    </div>
+                </td>
+            }
+            <td>
+                <div className={nameColClass}>
+                    {data.displayName}
+                </div>
+            </td>
+            <td>
+                <div className="quantity-col">
+                    {data.quantity}
+                </div>
+            </td>
+            <td>
+                <div className="price-col">
+                    {data.price}
+                </div>
+            </td>
+            <td>
+                <div className="total-col">
+                    {data.total}
+                </div>
+            </td>
+        </tr>;
+    }
+
+    const productInfoRows = useMemo(
+        () => (
+            generateInvoiceData().map((data, i) => productInfoRow(i + 1, data, (el) => refs.current[i] = el))
+        ),
+        [refs]
+    );
+
+    useLayoutEffect(() => {
+
+        let cachedLastPageAvailableHeight = localStorage.getItem("lastPageAvailableHeight");
+
+        if (!cachedLastPageAvailableHeight) {
+
+            let _lastPageHeight = 0;
+
+            refs.current?.forEach((element) => {
+
+                _lastPageHeight += element.clientHeight;
+
+                if (_lastPageHeight > maxPageHeight) {
+
+                    _lastPageHeight = element.clientHeight;
+
+                }
+
+            });
+
+            localStorage.setItem("lastPageAvailableHeight", JSON.stringify(maxPageHeight - _lastPageHeight));
+
+        }
+
+        return () => {
+            localStorage.removeItem("lastPageAvailableHeight");
+        }
+
+    }, [productInfoRows]);
+
 
     return (
         <div ref={componentRef}>
@@ -189,17 +231,19 @@ const PrintContent = ({componentRef, hideProductName = false}) => {
                 <tbody>
 
                 {
-                    generateInvoiceData().map((data, i) => productInfoRow(i + 1, data))
+                    productInfoRows
                 }
 
                 <tr>
                     <td colSpan={colSpan}>
-                        {priceSummary()}
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={colSpan}>
-                        <div>
+                        {/*<div className={`last-footer page-break ${forPrint ? "footer-for-print" : ""}`}>*/}
+                        <div
+                            className="last-footer"
+                            style={{
+                                height: `${localStorage.getItem("lastPageAvailableHeight") - 50}px`
+                            }}
+                        >
+                            {priceSummary()}
                             <div className="signature-content">
                                 <div className="left-signature">
                                     Signature One
